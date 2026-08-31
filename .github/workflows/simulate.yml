@@ -9,7 +9,7 @@ jobs:
         with:
           submodules: recursive
       - name: Install build prerequisites
-        run: sudo apt-get update && sudo apt-get install -y autoconf bison flex g++ make help2man python3
+        run: sudo apt-get update && sudo apt-get install -y autoconf bison flex libfl-dev g++ make help2man python3
       - name: Build pinned Verilator
         run: |
           git clone https://github.com/verilator/verilator.git "$RUNNER_TEMP/verilator"
@@ -26,4 +26,6 @@ jobs:
         if: always()
         with:
           name: simulation-logs
-          path: build/*.log
+          path: |
+            build/*.log
+            build/*.vcd

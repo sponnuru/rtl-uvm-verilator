@@ -1,0 +1,4 @@
+`verilator_config
+// Record hardware signals only; exclude UVM package implementation state.
+tracing_off -file "*/uvm/*"
+tracing_off -file "*counter_pkg.sv"

@@ -39,7 +39,7 @@ make run SEED=123     # one seed
 
 For an existing checkout: `git submodule update --init --recursive`.
 Use `make test VERILATOR=/absolute/path/to/verilator` to select a local simulator.
-The compile command uses `--binary --timing --assert` and `UVM_NO_DPI` (no DPI
+The compile command uses `--cc --exe --build --timing --assert --trace` and `UVM_NO_DPI` (no DPI
 features are needed by this example). Build output is in `build/compile.log`;
 each run has its own `build/run_seed_<seed>.log`.
 
@@ -53,6 +53,9 @@ This is a teaching example; it does not exercise all UVM or SystemVerilog featur
 - `tb/counter_if.sv`: signal interface.
 - `tb/counter_pkg.sv`: transaction, sequence, driver, monitor, scoreboard, environment, test.
 - `tb/tb_top.sv`: DUT wiring, clock, UVM startup, watchdog.
+- `tb/sim_main.cpp`: Verilator simulation loop and explicit VCD recording.
+- `tb/trace.vlt`: excludes UVM internals from hardware traces.
+- `scripts/check_vcd.py`: independently checks every recorded rising edge.
 - `scripts/run_test.py`: regression execution and result validation.
 - `.github/workflows/simulate.yml`: reproducible Linux compile and regression.
 - `results/`: recorded local validation results.
@@ -69,3 +72,35 @@ The UVM dependency retains its upstream Apache-2.0 license and notices.
 All three seeds passed locally with 775 checked samples per seed and zero UVM
 errors/fatals. See [results/VALIDATION.md](results/VALIDATION.md) for the exact
 tool versions, scenario counts, warnings, and captured logs.
+
+## Waveforms
+
+Every `make run` or `make test` run records a separate VCD waveform in
+`build/counter_seed_<seed>.vcd`. The checked-in `results/` directory also contains
+waveforms from the recorded three-seed regression.
+
+Open a waveform in GTKWave:
+
+```sh
+gtkwave results/counter_seed_1.vcd
+```
+
+On the Mac used for local validation, GTKWave's launcher is
+`/Users/ponnuru/.local/bin/gtkwave`. Expand `TOP -> tb_top -> dut`, add `clk`,
+`rst_n`, `enable`, and `count`, and set `count` to unsigned decimal or hexadecimal.
+The clock period is 10 ns. Reset is synchronous and active low.
+
+Useful seed-1 regions:
+
+- 0–90 ns: initial reset, hold, then first increment.
+- 2600–2670 ns: counter rollover from 255 to 0.
+- 2680–2780 ns: hold and reset with enable asserted.
+
+UVM classes are not signal waveforms; use the UVM logs to inspect scoreboard
+results and phase completion. The VCD records the DUT and interface signals.
+
+To recheck saved waveforms without recompilation:
+
+```sh
+python3 scripts/check_vcd.py results/counter_seed_*.vcd
+```

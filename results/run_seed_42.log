@@ -1,4 +1,4 @@
-%Warning: System has stack size 65520 kb which may be too small; failed to request more using 'ulimit -s 177379354'
+%Warning: System has stack size 8176 kb which may be too small; failed to request more using 'ulimit -s 177379354'
 UVM_INFO <project>/third_party/uvm/src/base/uvm_root.svh(476) @ 0: reporter [UVM/RELNOTES]
   ***********       IMPORTANT RELEASE NOTES         ************
 
@@ -19,7 +19,7 @@ UVM_WARNING <project>/third_party/uvm/src/base/uvm_root.svh(549) @ 0: reporter [
 UVM_INFO @ 0: reporter [RNTST] Running test counter_test...
 UVM_INFO <project>/third_party/uvm/src/base/uvm_traversal.svh(345) @ 0: reporter [UVM/COMP/NAMECHECK] This implementation of the component name checks requires DPI to be enabled
 UVM_WARNING <project>/third_party/uvm/src/base/uvm_traversal.svh(314) @ 0: reporter [NO_VISIT_CHECK] Because UVM_REGEX_NO_DPI is defined, no uvm component name constraints will be checked
-UVM_INFO tb/counter_pkg.sv(108) @ 7747000: uvm_test_top.env.scoreboard [COUNTER_STATS] checked=775 resets=26 holds=260 increments=489 wraps=1
+UVM_INFO tb/counter_pkg.sv(108) @ 7747000: uvm_test_top.env.scoreboard [COUNTER_STATS] checked=775 resets=30 holds=259 increments=486 wraps=1
 UVM_INFO <project>/third_party/uvm/src/base/uvm_report_server.svh(1009) @ 7747000: reporter [UVM/REPORT/SERVER]
 --- UVM Report Summary ---
 
@@ -38,5 +38,5 @@ UVM_FATAL :    0
 
 - <project>/third_party/uvm/src/base/uvm_root.svh:633: Verilog $finish
 - S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
-- Verilator: $finish at 8us; walltime 0.024 s; speed 329.323 us/s
-- Verilator: cpu 0.023 s on 1 threads; allocated 13 MB
+- Verilator: $finish at 8us; walltime 0.022 s; speed 347.617 us/s
+- Verilator: cpu 0.022 s on 1 threads; allocated 14 MB
